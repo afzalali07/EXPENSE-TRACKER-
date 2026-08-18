@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout('Budgets', ~{::div.content})}">
+<head>
+    <title>Budgets</title>
+</head>
+<body>
+    <div class="content">
+        <div class="page-header">
+            <h1>Budgets</h1>
+            <div class="action-links">
+                <a th:href="@{/budgets/add}" class="btn btn-primary">Create Budget</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr><th>Category</th><th>Period</th><th>Target</th><th>Rollover</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="budget : ${budgets}">
+                        <td th:text="${budget.category != null ? budget.category.name : 'Overall'}" style="font-weight: 500;"></td>
+                        <td>
+                            <span class="badge badge-info" th:text="${budget.periodType}"></span>
+                        </td>
+                        <td th:text="'$' + ${budget.targetAmount}"></td>
+                        <td th:text="${budget.rollover} ? 'Yes' : 'No'"></td>
+                        <td>
+                            <div class="action-links">
+                                <a th:href="@{/budgets/edit/{id}(id=${budget.id})}" class="btn btn-sm btn-secondary">Edit</a>
+                                <a th:href="@{/budgets/delete/{id}(id=${budget.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Delete budget?')">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

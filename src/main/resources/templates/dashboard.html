@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout('Dashboard', ~{::div.content})}">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="content">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <div class="action-links">
+                <a th:href="@{/expenses/add}" class="btn btn-primary">Quick Add Expense</a>
+                <a th:href="@{/incomes/add}" class="btn btn-secondary">Log Income</a>
+                <a th:href="@{/categories/add}" class="btn btn-secondary">New Category</a>
+                <a th:href="@{/budgets/add}" class="btn btn-secondary">New Budget</a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3" style="margin-bottom: var(--spacing-xl);">
+            <div class="card stat-card income">
+                <h3>Total Income</h3>
+                <div class="value" th:text="${totalIncome}">0.00</div>
+            </div>
+            <div class="card stat-card expense">
+                <h3>Total Expense</h3>
+                <div class="value" th:text="${totalExpense}">0.00</div>
+            </div>
+            <div class="card stat-card">
+                <h3>Net Savings</h3>
+                <div class="value" th:text="${savings}">0.00</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2">
+            <div class="card">
+                <h3 style="margin-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Recent Expenses</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Title</th><th>Amount</th><th>Date</th></tr></thead>
+                        <tbody>
+                        <tr th:each="expense : ${recentExpenses}">
+                            <td th:text="${expense.title}"></td>
+                            <td th:text="'$' + ${expense.amount}"></td>
+                            <td th:text="${expense.expenseDate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Recent Income</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Source</th><th>Amount</th><th>Date</th></tr></thead>
+                        <tbody>
+                        <tr th:each="income : ${recentIncomes}">
+                            <td th:text="${income.source}"></td>
+                            <td th:text="'$' + ${income.amount}"></td>
+                            <td th:text="${income.incomeDate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2" style="margin-top: var(--spacing-xl);">
+            <div class="card">
+                <h3 style="margin-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Category Spending</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Category</th><th>Total</th></tr></thead>
+                        <tbody>
+                        <tr th:each="entry : ${categoryTotals}">
+                            <td th:text="${entry.key}"></td>
+                            <td th:text="'$' + ${entry.value}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Budgets</h3>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Category</th><th>Period</th><th>Target</th></tr></thead>
+                        <tbody>
+                        <tr th:each="budget : ${budgets}">
+                            <td th:text="${budget.category != null ? budget.category.name : 'General'}"></td>
+                            <td th:text="${budget.periodType}"></td>
+                            <td th:text="'$' + ${budget.targetAmount}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

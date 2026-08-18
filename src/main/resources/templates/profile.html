@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout('Profile', ~{::div.content})}">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+    <div class="content">
+        <div class="page-header">
+            <h1>Profile Settings</h1>
+        </div>
+
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <div th:if="${successMessage}" class="alert alert-success" style="margin-bottom: 1.5rem;" th:text="${successMessage}"></div>
+            
+            <form th:action="@{/profile}" th:object="${user}" method="post">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" th:value="${user.username}" class="form-control" style="background-color: #f3f4f6; color: #6b7280; cursor: not-allowed;" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" th:value="${user.email}" class="form-control" style="background-color: #f3f4f6; color: #6b7280; cursor: not-allowed;" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" type="text" th:field="*{fullName}" class="form-control" />
+                </div>
+
+                <div class="grid grid-cols-2">
+                    <div class="form-group">
+                        <label for="currencyPreference">Currency</label>
+                        <select id="currencyPreference" th:field="*{currencyPreference}" class="form-control">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="GBP">GBP (£)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateFormat">Date Format</label>
+                        <select id="dateFormat" th:field="*{dateFormat}" class="form-control">
+                            <option value="yyyy-MM-dd">YYYY-MM-DD</option>
+                            <option value="dd/MM/yyyy">DD/MM/YYYY</option>
+                            <option value="MM/dd/yyyy">MM/DD/YYYY</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2">
+                    <div class="form-group">
+                        <label for="theme">Theme Preference</label>
+                        <select id="theme" th:field="*{theme}" class="form-control">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="avatarUrl">Avatar URL</label>
+                        <input id="avatarUrl" type="text" th:field="*{avatarUrl}" placeholder="https://..." class="form-control" />
+                    </div>
+                </div>
+
+                <div style="margin-top: var(--spacing-lg); text-align: right;">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

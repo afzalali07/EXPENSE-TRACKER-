@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout('Categories', ~{::div.content})}">
+<head>
+    <title>Categories</title>
+</head>
+<body>
+    <div class="content">
+        <div class="page-header">
+            <h1>Categories</h1>
+            <div class="action-links">
+                <a th:href="@{/categories/add}" class="btn btn-primary">Add Category</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr><th>Name</th><th>Limit</th><th>Color</th><th>Icon</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.name}" style="font-weight: 500;"></td>
+                        <td th:text="${category.spendingLimit != null ? '$' + category.spendingLimit : '-'}"></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div th:style="'width: 16px; height: 16px; border-radius: 4px; background-color: ' + ${category.color}"></div>
+                                <span th:text="${category.color}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${category.icon}"></td>
+                        <td>
+                            <div class="action-links">
+                                <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="btn btn-sm btn-secondary">Edit</a>
+                                <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Delete category?')">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

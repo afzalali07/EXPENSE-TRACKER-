@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout(${category.id == null ? 'Add Category' : 'Edit Category'}, ~{::div.content})}">
+<head>
+    <title>Category</title>
+</head>
+<body>
+    <div class="content">
+        <div class="page-header">
+            <h1 th:text="${category.id == null ? 'Add Category' : 'Edit Category'}"></h1>
+            <a th:href="@{/categories}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <form th:action="${category.id == null} ? @{/categories/save} : @{/categories/update/{id}(id=${category.id})}" th:object="${category}" method="post">
+                <div class="grid grid-cols-2">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input id="name" type="text" th:field="*{name}" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Color</label>
+                        <input id="color" type="color" th:field="*{color}" class="form-control" style="padding: 0.25rem; height: 42px;" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2">
+                    <div class="form-group">
+                        <label for="icon">Icon</label>
+                        <input id="icon" type="text" th:field="*{icon}" placeholder="bi bi-wallet" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="spendingLimit">Spending Limit</label>
+                        <input id="spendingLimit" type="number" step="0.01" th:field="*{spendingLimit}" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="parentCategory">Parent Category</label>
+                    <select id="parentCategory" name="parentCategory.id" class="form-control">
+                        <option value="" th:selected="${category.parentCategory == null || category.parentCategory.id == null}">-- None --</option>
+                        <option th:each="parent : ${parentCategories}" th:value="${parent.id}" th:text="${parent.name}" th:selected="${category.parentCategory != null && category.parentCategory.id == parent.id}"></option>
+                    </select>
+                </div>
+
+                <div style="margin-top: var(--spacing-lg); text-align: right;">
+                    <button type="submit" class="btn btn-primary">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout('Expenses', ~{::div.content})}">
+<head>
+    <title>Expenses</title>
+</head>
+<body>
+    <div class="content">
+        <div class="page-header">
+            <h1>Expenses</h1>
+            <div class="action-links">
+                <a th:href="@{/expenses/add}" class="btn btn-primary">Add Expense</a>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--spacing-xl);">
+            <div class="stat-card expense">
+                <h3>Total Expense</h3>
+                <div class="value" th:text="'$' + ${totalAmount}">0.00</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Payment</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Tags</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="expense : ${expenses}">
+                        <td th:text="${expense.title}"></td>
+                        <td>
+                            <span class="badge badge-info" th:text="${expense.category != null ? expense.category.name : 'Uncategorized'}"></span>
+                        </td>
+                        <td th:text="${expense.paymentMethod}"></td>
+                        <td th:text="'$' + ${expense.amount}"></td>
+                        <td th:text="${expense.expenseDate}"></td>
+                        <td th:text="${expense.tags}"></td>
+                        <td>
+                            <div class="action-links">
+                                <a th:href="@{/expenses/edit/{id}(id=${expense.id})}" class="btn btn-sm btn-secondary">Edit</a>
+                                <a th:href="@{/expenses/delete/{id}(id=${expense.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Delete expense?')">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

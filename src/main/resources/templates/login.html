@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Expense Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            
+            <div th:if="${param.error}" class="alert alert-error">Invalid username or password.</div>
+            <div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
+            <div th:if="${param.registered}" class="alert alert-success">Registration successful. Please sign in.</div>
+            <div th:if="${param.resetSuccess}" class="alert alert-success">Password reset complete. Please sign in.</div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" class="form-control" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Sign In</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a th:href="@{/register}">Create one</a></p>
+                <p style="margin-top: 0.5rem;"><a th:href="@{/forgot-password}">Forgot password?</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
